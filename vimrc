@@ -4,6 +4,7 @@ filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=/usr/local/opt/fzf
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
@@ -51,10 +52,12 @@ set background=dark
 colorscheme solarized
 
 set expandtab
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set autoindent
+set smartindent
 set relativenumber
+set ruler
 
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
@@ -73,9 +76,8 @@ nmap N Nzz
 nmap } }zz
 nmap { {zz
 
-nmap gO O<ESC>j
-nmap g<C-o> o<ESC>k
-
+map <leader>O O<ESC>j
+map <leader>o o<ESC>k
 let mapleader = ','
 
 nnoremap ; :
@@ -91,13 +93,13 @@ if !exists('g:airline_symbols')
     let g:airline_symbols = {}
     endif
 
-    let g:airline_left_sep = ''
-    let g:airline_left_alt_sep = ''
-    let g:airline_right_sep = ''
-    let g:airline_right_alt_sep = ''
-    let g:airline_symbols.branch = ''
-    let g:airline_symbols.readonly = ''
-    let g:airline_symbols.linenr = ''
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
