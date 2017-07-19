@@ -1,59 +1,46 @@
-set nocompatible              " be iMproved, required
+call plug#begin('~/.local/share/nvim/plugged')
+"Where Plugins go
+Plug 'scrooloose/nerdtree'
 
-filetype off                  " required
+Plug 'scrooloose/nerdcommenter'
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-set rtp+=/usr/local/opt/fzf
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+Plug 'neomake/neomake'
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+Plug 'bling/vim-airline'
 
-Plugin 'scrooloose/nerdtree'
+Plug 'vim-airline/vim-airline-themes'
 
-Plugin 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-fugitive'
 
-Plugin 'scrooloose/syntastic'
+Plug 'tpope/vim-surround'
 
-Plugin 'bling/vim-airline'
+Plug 'Harenome/vim-mipssyntax'
 
-Plugin 'vim-airline/vim-airline-themes'
+Plug 'flazz/vim-colorschemes'
 
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-sensible'
 
-Plugin 'tpope/vim-surround'
+Plug 'tpope/vim-eunuch'
 
-Plugin 'Harenome/vim-mipssyntax'
+Plug 'easymotion/vim-easymotion'
 
-Plugin 'flazz/vim-colorschemes'
+Plug 'ntpeters/vim-better-whitespace'
 
-Plugin 'tpope/vim-sensible'
+Plug 'valloric/youcompleteme', {'do': 'python2 install.py --clang-completer --system-libclang --system-boost'}
 
-Plugin 'tpope/vim-eunuch'
+Plug 'raimondi/delimitmate'
 
-Plugin 'easymotion/vim-easymotion'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
-Plugin 'ntpeters/vim-better-whitespace'
+Plug 'junegunn/fzf.vim'
 
-Plugin 'valloric/youcompleteme'
+Plug 'mattn/emmet-vim'
 
-Plugin 'raimondi/delimitmate'
+Plug 'majutsushi/tagbar'
 
-Plugin 'junegunn/fzf.vim'
+call plug#end()
 
-Plugin 'mattn/emmet-vim'
 
-Plugin 'majutsushi/tagbar'
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-
-set mouse=a
-
-set t_Co=256
 set encoding=utf-8
 set guifont=Hack
 colorscheme solarized
@@ -127,6 +114,33 @@ vnoremap ; :
 
 let mapleader = ','
 
+"Terminal Mappings
+if exists(':terminal')
+  tnoremap <Esc> <C-\><C-n>
+  tnoremap <a-j> <c-\><c-n><c-w>j
+  tnoremap <a-k> <c-\><c-n><c-w>k
+  tnoremap <a-h> <c-\><c-n><c-w>h
+  tnoremap <a-l> <c-\><c-n><c-w>l
+endif
+
+nnoremap <a-j> <c-w>j
+nnoremap <a-k> <c-w>k
+nnoremap <a-h> <c-w>h
+nnoremap <a-l> <c-w>l
+vnoremap <a-j> <c-\><c-n><c-w>j
+vnoremap <a-k> <c-\><c-n><c-w>k
+vnoremap <a-h> <c-\><c-n><c-w>h
+vnoremap <a-l> <c-\><c-n><c-w>l
+inoremap <a-j> <c-\><c-n><c-w>j
+inoremap <a-k> <c-\><c-n><c-w>k
+inoremap <a-h> <c-\><c-n><c-w>h
+inoremap <a-l> <c-\><c-n><c-w>l
+cnoremap <a-j> <c-\><c-n><c-w>j
+cnoremap <a-k> <c-\><c-n><c-w>k
+cnoremap <a-h> <c-\><c-n><c-w>h
+cnoremap <a-l> <c-\><c-n><c-w>l
+au WinEnter *pid:* call feedkeys('i')
+
 "Buffer Navigation
 nnoremap <F5> :buffers<CR>:buffer<Space>
 nnoremap <leader>n :bn<CR>
@@ -167,18 +181,24 @@ let g:airline#extensions#tabline#left_sep = ''
 let g:airline#extensions#tabline#left_alt_sep = ''
 let g:airline#extensions#tabline#buffer_nr_show = 1
 
-"Syntastic Settings
 set laststatus=2
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
+"YCM settings
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
+
+"Neomake settings
+let g:neomake_open_list = 2
+let g:airline#extensions#neomake#enabled = 1
+
+autocmd! BufWritePost,BufEnter * Neomake
+
+aug QFClose
+  au!
+  au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
+aug END
+
 
 "Emmet Settings
 let g:user_emmet_install_global = 0

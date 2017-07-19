@@ -17,7 +17,8 @@ alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'
 
-alias sa='source ~/.bashrc; echo bashrc sourced'
+alias sa='source ~/.bashrc; source ~/.bash_profile; echo bashrc and bash_profile sourced'
+#alias sprof='source ~/.bash_profile; echo bash_profile sourced'
 
 alias mv='mv -iv'
 alias cp='cp -iv'
