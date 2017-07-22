@@ -59,7 +59,7 @@ set guifont=Hack
 colorscheme solarized
 
 let hour = strftime("%H")
-if 6 <= hour && hour < 18
+if 6 <= hour && hour < 20
   set background=light
 else
   set background=dark
@@ -132,9 +132,6 @@ nnoremap <F5> :buffers<CR>:buffer<Space>
 nnoremap <leader>n :bn<CR>
 nnoremap <leader>p :bp<CR>
 
-"Map Fuzzy Finder to Ctrl+p
-nnoremap <silent> <C-p> :FZF<CR>
-
 "Strip WhiteSpace
 autocmd BufEnter * EnableStripWhitespaceOnSave
 nnoremap <leader>ws :StripWhitespace<CR>
@@ -170,7 +167,6 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 "Syntastic Settings
 set laststatus=2
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
@@ -187,4 +183,23 @@ let g:user_emmet_expandabbr_key='<C-e>'
 
 "Tagbar Settings
 nmap tb :TagbarToggle<CR>
+
+"fzf settings
+nnoremap <silent> <C-p> :FZF<CR>
+
+nnoremap <silent> <leader>f :Files<CR>
+nnoremap <silent> <leader>a :Buffers<CR>
+nnoremap <silent> <leader>A :Windows<CR>
+nnoremap <silent> <leader>; :BLines<CR>
+nnoremap <silent> <leader>o :BTags<CR>
+nnoremap <silent> <leader>O :Tags<CR>
+nnoremap <silent> <leader>? :History<CR>
+nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
+nnoremap <silent> <leader>. :AgIn
+
+nnoremap <silent> K :call SearchWordWithAg()<CR>
+vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
+nnoremap <silent> <leader>gl :Commits<CR>
+nnoremap <silent> <leader>ga :BCommits<CR>
+nnoremap <silent> <leader>ft :Filetypes<CR>
 
