@@ -24,4 +24,7 @@ alias mv='mv -iv'
 alias cp='cp -iv'
 alias rm='rm -iv'
 
+alias top='htop'
+
+alias diff='colordiff'
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

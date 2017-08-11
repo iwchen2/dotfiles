@@ -30,6 +30,8 @@ Plugin 'Harenome/vim-mipssyntax'
 
 Plugin 'flazz/vim-colorschemes'
 
+Plugin 'altercation/vim-colors-solarized'
+
 Plugin 'tpope/vim-sensible'
 
 Plugin 'tpope/vim-eunuch'
@@ -40,6 +42,8 @@ Plugin 'ntpeters/vim-better-whitespace'
 
 Plugin 'valloric/youcompleteme'
 
+Plugin 'artur-shaik/vim-javacomplete2'
+
 Plugin 'raimondi/delimitmate'
 
 Plugin 'junegunn/fzf.vim'
@@ -47,12 +51,14 @@ Plugin 'junegunn/fzf.vim'
 Plugin 'mattn/emmet-vim'
 
 Plugin 'majutsushi/tagbar'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
 set mouse=a
 
+syntax on
 set t_Co=256
 set encoding=utf-8
 set guifont=Hack
@@ -166,7 +172,7 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 
 "Syntastic Settings
 set laststatus=2
-set statusline+=%#warningmsg#
+set statusline+=\%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
@@ -175,6 +181,10 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
+
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#syntastic#error_symbol = 'E:'
+let g:airline#extensions#syntastic#warning_symbol = 'W:'
 
 "Emmet Settings
 let g:user_emmet_install_global = 0
@@ -203,3 +213,5 @@ nnoremap <silent> <leader>gl :Commits<CR>
 nnoremap <silent> <leader>ga :BCommits<CR>
 nnoremap <silent> <leader>ft :Filetypes<CR>
 
+"Java completion
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
