@@ -1,56 +1,82 @@
 call plug#begin('~/.local/share/nvim/plugged')
 "Where Plugins go
+
+"nerdTree/nerdComment/tagbar
 Plug 'scrooloose/nerdtree'
-
 Plug 'scrooloose/nerdcommenter'
+Plug 'majutsushi/tagbar'
 
+"Linter
 Plug 'neomake/neomake'
 
+"Airline/Statusline
 Plug 'bling/vim-airline'
-
 Plug 'vim-airline/vim-airline-themes'
-
-Plug 'tpope/vim-fugitive'
-
-Plug 'tpope/vim-surround'
-
-Plug 'Harenome/vim-mipssyntax'
-
 Plug 'flazz/vim-colorschemes'
 
+"tpope
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sensible'
-
 Plug 'tpope/vim-eunuch'
 
-Plug 'easymotion/vim-easymotion'
+"Completion Plugins
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'artur-shaik/vim-javacomplete2'
+Plug 'zchee/deoplete-clang'
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+Plug 'zchee/deoplete-jedi'
+Plug 'poppyschmo/deoplete-latex'
+Plug 'Shougo/neoinclude.vim'
 
-Plug 'ntpeters/vim-better-whitespace'
+"Snippets
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 
-Plug 'valloric/youcompleteme', {'do': 'python2 install.py --clang-completer --system-libclang --system-boost'}
-
-Plug 'raimondi/delimitmate'
-
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-
+"FZF Plugin
+Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'mileszs/ack.vim'
 
-Plug 'mattn/emmet-vim'
+"Syntax
+Plug 'sheerun/vim-polyglot'
+Plug 'Harenome/vim-mipssyntax'
 
-Plug 'majutsushi/tagbar'
+"Git
+Plug 'airblade/vim-gitgutter'
+
+"Misc Plugins
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'lervag/vimtex'
+Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex'}
+Plug 'easymotion/vim-easymotion'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'raimondi/delimitmate'
 
 call plug#end()
 
-
+set mouse=a
 set encoding=utf-8
+set t_Co=256
+set termguicolors
 set guifont=Hack
-colorscheme solarized
+colorscheme gruvbox
+set background=dark
 
-let hour = strftime("%H")
-if 6 <= hour && hour < 18
-  set background=light
-else
-  set background=dark
+
+"Open at last position
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal! g'\"" | endif
 endif
+
+"let hour = strftime("%H")
+"if 6 <= hour && hour < 20
+  "set background=light
+"else
+  "set background=dark
+"endif
 
 
 set expandtab
@@ -84,9 +110,16 @@ set incsearch
 set showcmd
 
 "Folding
-set foldmethod=syntax
+"set foldmethod=syntax
 nnoremap zC zM
 nnoremap zO zR
+
+"Commands for editing dotfiles
+command Bashprofile execute 'e $BASHPROFILE'
+command Bashrc execute 'e $BASHRC'
+command Zshrc execute 'e $ZSHRC'
+command Vimrc execute 'e $VIMRC'
+command Nvimrc execute 'e $NVIMRC'
 
 "Buffer Settings
 set hidden
@@ -113,6 +146,12 @@ nnoremap ; :
 vnoremap ; :
 
 let mapleader = ','
+let maplocalleader = '\'
+
+"Persistent Undo
+set undofile "Maintain undo history between sessions
+set undodir=~/.vim/undodir
+
 
 "Terminal Mappings
 if exists(':terminal')
@@ -146,12 +185,17 @@ nnoremap <F5> :buffers<CR>:buffer<Space>
 nnoremap <leader>n :bn<CR>
 nnoremap <leader>p :bp<CR>
 
-"Map Fuzzy Finder to Ctrl+p
-nnoremap <silent> <C-p> :FZF<CR>
-
 "Strip WhiteSpace
 autocmd BufEnter * EnableStripWhitespaceOnSave
 nnoremap <leader>ws :StripWhitespace<CR>
+
+"Ag/Ack Settings
+let g:ackprg = 'ag --vimgrep'
+
+"FZF Settings
+nmap <C-p> :Files<CR>
+nmap <leader>r :Tags<CR>
+nmap <leader>b :Buffers<CR>
 
 "Airline (status line)
 let g:airline#extensions#branch#enabled=1
@@ -159,7 +203,7 @@ let g:airline#extensions#branch#enabled=1
 let g:airline_section_y = 'BN: %{bufnr("%")}'
 
 let g:airline_powerline_fonts=1
-let g:airline_theme='solarized'
+let g:airline_theme='gruvbox'
 
 
 if !exists('g:airline_symbols')
@@ -182,7 +226,8 @@ let g:airline#extensions#tabline#left_alt_sep = ''
 let g:airline#extensions#tabline#buffer_nr_show = 1
 
 set laststatus=2
-set statusline+=%#warningmsg#
+"set statusline+=%#warningmsg#
+set statusline+=\ %#ErrorMsg#%{neomake#statusline#QflistStatus('qf:\ ')}
 set statusline+=%*
 
 "YCM settings
@@ -191,8 +236,11 @@ let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 "Neomake settings
 let g:neomake_open_list = 2
 let g:airline#extensions#neomake#enabled = 1
+let g:neomake_cpp_enable_makers=['clang']
+let g:neomake_cpp_clang_args = ["-std=c++11", "-Wextra", "-Wall", "-fsanitize=undefined","-g"]
 
 autocmd! BufWritePost,BufEnter * Neomake
+autocmd! VimLeave * let g:neomake_verbose = 0
 
 aug QFClose
   au!
@@ -208,3 +256,52 @@ let g:user_emmet_expandabbr_key='<C-e>'
 "Tagbar Settings
 nmap tb :TagbarToggle<CR>
 
+"fzf settings
+nnoremap <silent> <C-p> :FZF<CR>
+nnoremap <silent> <leader>f :Files<CR>
+nnoremap <silent> <leader>a :Buffers<CR>
+nnoremap <silent> <leader>t :Tags<CR>
+
+nnoremap <silent> <leader>A :Windows<CR>
+nnoremap <silent> <leader>; :BLines<CR>
+nnoremap <silent> <leader>o :BTags<CR>
+nnoremap <silent> <leader>O :Tags<CR>
+nnoremap <silent> <leader>? :History<CR>
+nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
+nnoremap <silent> <leader>. :AgIn
+
+nnoremap <silent> K :call SearchWordWithAg()<CR>
+vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
+nnoremap <silent> <leader>gl :Commits<CR>
+nnoremap <silent> <leader>ga :BCommits<CR>
+nnoremap <silent> <leader>ft :Filetypes<CR>
+
+"java completion
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+
+"deoplete settings
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources#clang#libclang_path="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libclang.dylib"
+let g:deoplete#sources#clang#clang_header="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang"
+
+autocmd CompleteDone * silent! pclose!
+set completeopt-=preview
+
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+
+if !exists('g:deoplete#omni#input_patterns')
+    let g:deoplete#omni#input_patterns = {}
+endif
+let g:deoplete#omni#input_patterns.tex = g:vimtex#re#deoplete
+
+"let g:python3_host_prog='/usr/local/Cellar/python3/3.7.0/bin/python3'
+
+
+"vimtex settings
+let g:tex_flavor = 'latex'
+let g:deoplete#sources#latex#include_web_math = 1
+let g:deoplete#sources#latex#include_misc = 1
+
+"latex preview settings
+let g:livepreview_previewer = 'open -a Skim'

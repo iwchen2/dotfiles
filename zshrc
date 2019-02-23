@@ -1,5 +1,6 @@
 # If you come from bash you might have to change your $PATH.
  #export PATH=$HOME/bin:/usr/local/bin:$PATH
+ path+=('/Library/TeX/texbin')
  export PATH="$HOME/bin:/usr/local/bin:/usr/local/opt/python/libexec/bin:/usr/local/Cellar/python3/3.6.2/bin:${PATH}"
 
 # Path to your oh-my-zsh installation.
@@ -8,21 +9,18 @@ export ZSH=/Users/Ivan/.oh-my-zsh
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="agnoster"
-
+ZSH_THEME="robbyrussell"
 
 export CLICOLOR=1
 export LS_COLORS=exfxcxdxbxegedabagacad
-#export LS_COLORS='no=00;37:fi=00:di=00;33:ln=04;36:pi=40;33:so=01;35:bd=40;33;01:'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-#zstyle ':completion:*' list-colors 'di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
 # Uncomment the following line to use hyphen-insensitive completion. Case
 # sensitive completion must be off. _ and - will be interchangeable.
- HYPHEN_INSENSITIVE="true"
+ #HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
@@ -34,13 +32,13 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+ DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
  #ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
- #COMPLETION_WAITING_DOTS="true"
+ COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -50,7 +48,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
+ HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -59,7 +57,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git python node npm brew osx bower extract z warhol)
+plugins=(git github mvn ant themes python pip node npm brew osx bower extract z warhol battery emoji emoji-clock history docker catimg sublime sudo zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -102,10 +100,13 @@ alias chrome="open -a 'Google Chrome'"
 
 alias grep="grep --color=auto"
 
-alias h='history'
+alias cat='bat'
+
 alias j='job -l'
 alias c='clear'
 
+alias gitws='cd ~/Desktop/Ivan/Computer\ Science/Github/'
+alias ivanws='cd ~/Desktop/Ivan/Computer\ Science/'
 
 alias cd..='cd ..'
 alias ..='cd ..'
@@ -116,23 +117,53 @@ alias mv='mv -iv'
 alias cp='cp -iv'
 alias rm='rm -iv'
 
+alias top='htop'
+alias diff='colordiff'
+alias edit='$EDITOR' 
+
+alias brewup='brew update && brew upgrade `brew outdated`'
 
 export VIMRC=~/.vimrc
 export NVIMRC=~/.config/nvim/init.vim
 export ZSHRC=~/.zshrc
 export BASHRC=~/.bashrc
 export BASHPROF=~/.bash_profile
+export BASH_PROMPT=~/.bash_prompt
+export GITCONFIG=~/.gitconfig
+
 
 alias vimrc='nvim $VIMRC'
 alias nvimrc='nvim $NVIMRC'
 alias zshrc='nvim $ZSHRC'
 alias bashrc='nvim $BASHRC'
 alias bashp='nvim $BASHPROF'
+alias bashprompt='nvim $BASH_PROMPT'
+alias gitconfig='nvim $GITCONFIG'
 
-alias sa='source .zshrc; echo zshrc sourced'
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/
+export CATALINA_HOME=/usr/local/Cellar/tomcat/9.0.12/libexec
+export CATALINA_BASE=/usr/local/Cellar/tomcat/9.0.12/libexec
 
+alias tomstart='brew services start tomcat'
+alias tomstop='brew services stop tomcat'
+
+alias poststart='pg_ctl -D ~/Desktop/Ivan/Computer\ Science/pgsql/data -l logfile start'
+alias poststop='pg_ctl -D ~/Desktop/Ivan/Computer\ Science/pgsql/data stop'
+
+alias sa='source ~/.zshrc; echo zshrc sourced'
 #FZF settings
-  export FZF_DEFAULT_COMMAND="find ."
+  #export FZF_DEFAULT_COMMAND="find ."
+
+#fzf + ag configs
+export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND"
+
+#fzf via homebrew
+if [ -e /usr/local/opt/fzf/shell/completion.zsh ]; then
+  source /usr/local/opt/fzf/shell/key-bindings.zsh
+  source /usr/local/opt/fzf/shell/completion.zsh
+fi
 
   _gen_fzf_default_opts() {
     local base03="234"
@@ -193,4 +224,18 @@ fd() {
 export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 export FZF_CTRL_T_OPTS="--select-1 --exit-0"
 
+#Spaceship settings
+SPACESHIP_DOCKER_SHOW="false"
 
+SPACESHIP_TIME_SHOW="true"
+SPACESHIP_TIME_FORMAT="%t"
+SPACESHIP_TIME_12HR="true"
+
+SPACESHIP_HOST_PREFIX="@"
+
+SPACESHIP_EXEC_TIME_ELAPSED="0"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+source "/Users/Ivan/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
