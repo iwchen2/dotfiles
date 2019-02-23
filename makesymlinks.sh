@@ -9,7 +9,7 @@
 dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
 files="bashrc bash_profile vimrc zshrc"    # list of files/folders to symlink in homedir
-nvimrc_file="~/.config/nvim/init.vim"     #where nvimrc is located[
+nvimrc_file="config/nvim/init.vim"     #where nvimrc is located[
 
 ##########
 
@@ -23,17 +23,18 @@ echo "Changing to the $dir directory"
 cd $dir
 echo "...done"
 
-# move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks 
+# move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks
 for file in $files; do
     echo "Moving any existing dotfiles from ~ to $olddir"
     mv ~/.$file ~/dotfiles_old/
     echo "Creating symlink to $file in home directory."
     ln -s $dir/$file ~/.$file
+    printf "\n"
 done
 
 # Moving Nvimrc file
 echo "Moving existing nvimrc file from ~ to $olddir"
-mv $nvimrc_file ~/dotfiles_old
+mv ~/.$nvimrc_file ~/dotfiles_old/
 echo "Creating symlink to nvimrc in home directoy."
-ln -s $dir/nvimrc $nvimrc_file
+ln -s $dir/nvimrc ~/.$nvimrc_file
 echo "...done"
