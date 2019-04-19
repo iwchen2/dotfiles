@@ -12,12 +12,9 @@ Plug 'vim-airline/vim-airline-themes'
 
 "tpope plugins
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-eunuch'
-"
+
 "Linters
-"Plug 'scrooloose/syntastic'
 Plug 'w0rp/ale'
 
 "Completion Plugins
@@ -27,17 +24,11 @@ Plug 'Shougo/neoinclude.vim'
 Plug 'rip-rip/clang_complete'
 Plug 'artur-shaik/vim-javacomplete2'
 Plug 'davidhalter/jedi-vim'
-Plug 'raimondi/delimitmate'
 
 "FZF Plugin
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'mileszs/ack.vim'
-
-"Prose Plugins
-Plug 'reedes/vim-pencil'
-Plug 'reedes/vim-wordy'
-Plug 'reedes/vim-lexical'
 
 "Colorschemes
 Plug 'flazz/vim-colorschemes'
@@ -47,10 +38,8 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'airblade/vim-gitgutter'
 
 "Misc
-Plug 'nathanaelkane/vim-indent-guides'
 Plug 'easymotion/vim-easymotion'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'Harenome/vim-mipssyntax'
 
 
 " All of your Plugins must be added before the following line
@@ -188,21 +177,6 @@ let g:airline#extensions#tabline#left_sep = ''
 let g:airline#extensions#tabline#left_alt_sep = ''
 let g:airline#extensions#tabline#buffer_nr_show = 1
 
-"Syntastic Settings
-"set laststatus=2
-"set statusline+=\%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
-
-"let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
-
-"let g:airline#extensions#syntastic#enabled = 1
-"let g:airline#extensions#syntastic#error_symbol = 'E:'
-"let g:airline#extensions#syntastic#warning_symbol = 'W:'
 
 "Ale Settings
 set laststatus=2
@@ -213,11 +187,6 @@ let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '⚠'
 highlight ALEErrorSign ctermbg=NONE ctermfg=red
 highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
-
-"Emmet Settings
-let g:user_emmet_install_global = 0
-autocmd FileType html,css EmmetInstall
-let g:user_emmet_expandabbr_key='<C-e>'
 
 "Tagbar Settings
 nmap tb :TagbarToggle<CR>
@@ -323,11 +292,4 @@ imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-k>     <Plug>(neosnippet_expand_target)
 
-"vim-lexical settings
-augroup lexical
-  autocmd!
-  autocmd FileType markdown,mkd call lexical#init()
-  autocmd FileType textile call lexical#init()
-  autocmd FileType text call lexical#init({ 'spell': 0})
-augroup END
 
