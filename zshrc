@@ -1,7 +1,7 @@
 # If you come from bash you might have to change your $PATH.
  #export PATH=$HOME/bin:/usr/local/bin:$PATH
  path+=('/Library/TeX/texbin')
- export PATH="$HOME/bin:/usr/local/bin:/usr/local/opt/python/libexec/bin:/usr/local/Cellar/python3/3.6.2/bin:/Users/Ivan/anaconda3/bin:${PATH}"
+ export PATH="$HOME/bin:/usr/local/bin:/usr/local/opt/python/libexec/bin:/usr/local/Cellar/python3/3.6.2/bin:/Users/Ivan/anaconda3/bin:/usr/local/opt/llvm/bin:${PATH}"
 
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/Ivan/.oh-my-zsh

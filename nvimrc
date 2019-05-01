@@ -23,10 +23,9 @@ Plug 'tpope/vim-eunuch'
 "Completion Plugins
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'artur-shaik/vim-javacomplete2'
-Plug 'zchee/deoplete-clang'
+Plug 'Shougo/deoplete-clangx'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-Plug 'zchee/deoplete-jedi'
-Plug 'poppyschmo/deoplete-latex'
+Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'Shougo/neoinclude.vim'
 
 "Snippets
@@ -48,8 +47,6 @@ Plug 'airblade/vim-gitgutter'
 "Misc Plugins
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'lervag/vimtex'
-Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex'}
 Plug 'easymotion/vim-easymotion'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'raimondi/delimitmate'
@@ -230,9 +227,6 @@ set laststatus=2
 set statusline+=\ %#ErrorMsg#%{neomake#statusline#QflistStatus('qf:\ ')}
 set statusline+=%*
 
-"YCM settings
-let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
-
 "Neomake settings
 let g:neomake_open_list = 2
 let g:airline#extensions#neomake#enabled = 1
@@ -281,27 +275,21 @@ autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
 "deoplete settings
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#clang#libclang_path="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libclang.dylib"
-let g:deoplete#sources#clang#clang_header="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang"
 
+"clang completion settings
+let g:deoplete#sources#clang#libclang_path="/usr/local/opt/llvm/lib/libclang.dylib"
+let g:deoplete#sources#clang#clang_header="/usr/local/opt/bin/clang"
+call deoplete#custom#var('clangx', 'clang_binary', '/usr/local/opt/llvm/bin/clang')
+let g:clang_library_path='/usr/local/opt/llvm/lib/'
+
+"Preview menu for completion
 autocmd CompleteDone * silent! pclose!
 set completeopt-=preview
-
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 
 if !exists('g:deoplete#omni#input_patterns')
     let g:deoplete#omni#input_patterns = {}
 endif
-let g:deoplete#omni#input_patterns.tex = g:vimtex#re#deoplete
 
 "let g:python3_host_prog='/usr/local/Cellar/python3/3.7.0/bin/python3'
-
-
-"vimtex settings
-let g:tex_flavor = 'latex'
-let g:deoplete#sources#latex#include_web_math = 1
-let g:deoplete#sources#latex#include_misc = 1
-
-"latex preview settings
-let g:livepreview_previewer = 'open -a Skim'

@@ -12,6 +12,7 @@ Plug 'vim-airline/vim-airline-themes'
 
 "tpope plugins
 Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-fugitive'
 
 "Linters
 Plug 'w0rp/ale'
@@ -55,13 +56,6 @@ let g:nord_italic_comments=1
 let g:nord_comment_brightness=12
 let g:nord_cursor_line_number_background=1
 colorscheme nord
-
-"let hour = strftime("%H")
-"if 6 <= hour && hour < 20
-  "set background=light
-"else
-  "set background=dark
-"endif
 
 set expandtab
 set tabstop=2

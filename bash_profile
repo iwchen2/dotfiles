@@ -1,7 +1,7 @@
 
   # Setting PATH for Python 3.4
   # The orginal version is saved in .bash_profile.pysave
-  PATH="/usr/local/opt/python/libexec/bin:/usr/local/Cellar/python3/3.6.2/bin:${PATH}"
+  PATH="/usr/local/opt/python/libexec/bin:/usr/local/Cellar/python3/3.6.2/bin:/usr/local/opt/llvm/bin:${PATH}"
   export PATH
 
   ##
